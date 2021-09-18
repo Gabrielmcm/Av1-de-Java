@@ -3,6 +3,7 @@ package com.tech4me.musica.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.tech4me.musica.model.Musica;
 import com.tech4me.musica.service.MusicaService;
 import com.tech4me.musica.shared.MusicaDTO;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +36,7 @@ public class MusicaController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<MusicaDTO>> obterPorId(@PathVariable String id){
         Optional<MusicaDTO> Musica = servicoMusica.obterPorId(id);
+        
         return new ResponseEntity<>(Musica, HttpStatus.OK);
     }
 
@@ -44,9 +47,18 @@ public class MusicaController {
         return new ResponseEntity<>(musicaDto, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Musica> atualizar (@PathVariable String id, 
+    @RequestBody MusicaDTO musicaDto){
+
+        return new ResponseEntity<>(servicoMusica.atualizar(id, musicaDto), HttpStatus.OK);
+        
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable String id){
-        servicoMusica.detele(id);
+        servicoMusica.delete(id);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

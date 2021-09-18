@@ -49,7 +49,25 @@ public class MusicaServiceImpl implements MusicaService {
     }
 
     @Override
-    public void detele(String idMusica) {
+    public Musica atualizar(String idMusica, MusicaDTO musicaDto){
+        if(repositorioMusica.findById(idMusica).isPresent()){
+            Musica musicaAtt = repositorioMusica.findById(idMusica).get(); 
+
+            musicaAtt.setTitulo(musicaDto.getTitulo());
+            musicaAtt.setArtista(musicaDto.getArtista());
+            musicaAtt.setAlbum(musicaDto.getAlbum());
+            musicaAtt.setGenero(musicaDto.getGenero());
+            musicaAtt.setAnoDoLancamento(musicaDto.getAnoDoLancamento());
+            musicaAtt.setCompositor(musicaDto.getCompositor());
+
+            return repositorioMusica.save(musicaAtt);
+        }else{
+            throw new InputMismatchException("Impossível de Atualizar");
+        }
+    }
+
+    @Override
+    public void delete(String idMusica) {
         repositorioMusica.deleteById(idMusica);
         
     }
